@@ -15,10 +15,10 @@
             <nav>
                 <span>
                     <a href="{% url 'index' %}">Active Listings</a>
-                    <a href="#">Categories</a>
-                    <a href="#">Watchlist</a>
+                    <a href="{% url 'categories' %}">Categories</a>
                     {% if user.is_authenticated %}
-                        <a href="#" >Create Listing</a>
+                        <a href="{% url 'watchlist' %}">Watchlist</a>
+                        <a href="{% url 'create' %}" >Create Listing</a>
                 </span>
                 <span>
                         Welcome <strong>{{ user.username }}!</strong>
