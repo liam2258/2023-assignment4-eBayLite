@@ -6,16 +6,65 @@ from django.urls import reverse
 
 from .models import User, Category, Listing
 
+def listing(request, id):
+    listingData = Listing.objects.get(pk=id)
+    return render(request, "auctions/listing.html", {
+        "listing": listingData
+    })
+    pass
 
 def index(request):
-    return render(request, "auctions/index.html")
+    activeListings = Listing.objects.filter(isActive=True)
+    allCategories = Category.objects.all()
+    return render(request, "auctions/index.html", {
+        "listings": activeListings,
+        "categories": allCategories
+    })
+
+def displayCategory(request):
+    print(request.POST)
+    if request.method == "POST":
+        categoryFromForm = request.POST['category']
+        category = Category.objects.get(categoryName=categoryFromForm)
+        activeListings = Listing.objects.filter(isActive=True, category=category)
+        allCategories = Category.objects.all()
+    return render(request, "auctions/index.html", {
+        "listings": activeListings,
+        "categories": allCategories
+    })
+
+    pass
 
 def createListing(request):
     if request.method == "GET":
-        allCatgegories = Category.objects.all()
+        allCategories = Category.objects.all()
         return render(request, "auctions/create.html", {
-            "categories": allCatgegories
+            "categories": allCategories
         })
+    else:
+        print(request.POST)
+        title = request.POST["title"]
+        description = request.POST["description"]
+        imageurl = request.POST["imageurl"]
+        price = request.POST["price"]
+        category = request.POST["category"]
+
+        currentUser = request.user
+
+        categoryData = Category.objects.get(categoryName=category)
+
+        newListing = Listing(
+            title=title,
+            description=description,
+            imageUrl=imageurl,
+            price=float(price),
+            category=categoryData,
+            owner=currentUser
+        )
+
+        newListing.save()
+
+        return HttpResponseRedirect(reverse(index))
 
 
 def login_view(request):
