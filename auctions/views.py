@@ -28,6 +28,15 @@ def categories(request):
         "categories": categories
     })
 
+def categoryList(request, category):
+    # Filter the listings by category
+    listings = Listing.objects.filter(category=category)
+
+    return render(request, "auctions/categoryList.html", {
+        "category": category,
+        "listings": listings
+    })
+
 def closeAuction(request, id):
     listingData = Listing.objects.get(pk=id)
     listingData.isActive = False
