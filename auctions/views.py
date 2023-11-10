@@ -82,8 +82,9 @@ def addBid(request, id):
             "isOwner": isOwner, 
         })
 
+from django.http import JsonResponse
+
 def addComment(request, id):
-    print(request.POST)
     currentUser = request.user
     listingData = Listing.objects.get(pk=id)
     message = request.POST['comment']
@@ -96,7 +97,12 @@ def addComment(request, id):
 
     newComment.save()
 
-    return HttpResponseRedirect(reverse("listing", args=(id, )))
+    # Return the new comment details as JSON
+    return JsonResponse({
+        'author': newComment.author.username,
+        'message': newComment.message
+    })
+
 
 def displayWatchList(request):
     currentUser = request.user
