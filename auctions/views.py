@@ -6,6 +6,19 @@ from django.urls import reverse
 
 from .models import User, Category, Listing, Comment, Bid
 
+# auctions/views.py
+
+from django.shortcuts import render, get_object_or_404
+from django.views import View
+from .models import Listing
+
+class ListingDetailView(View):
+    template_name = 'auctions/listing_detail.html'
+
+    def get(self, request, pk):
+        listing = get_object_or_404(Listing, pk=pk)
+        return render(request, self.template_name, {'listing': listing})
+
 def listing(request, id):
     listingData = Listing.objects.get(pk=id)
     isListingInWatchList = request.user in listingData.watchlist.all()

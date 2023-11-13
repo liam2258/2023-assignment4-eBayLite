@@ -30,6 +30,8 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+# commerce/settings.py
+
 INSTALLED_APPS = [
     'auctions',
     'django.contrib.admin',
@@ -38,7 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "django.contrib.sites", # add site map apps to django
+    "django.contrib.sitemaps",
 ]
+
+SITE_ID = 1 # Set the site ID to 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
