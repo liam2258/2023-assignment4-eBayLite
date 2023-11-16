@@ -1,6 +1,9 @@
 from django.urls import path
 
 from . import views
+from .views import ListingDetailView
+
+# auctions/urls.py
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -18,4 +21,7 @@ urlpatterns = [
     path('closeAuction/<int:id>/', views.closeAuction, name='closeAuction'),
     path('categories', views.categories, name='categories'),
     path('categoryList/<str:category>/', views.categoryList, name='categoryList'),
+
+    # Use our path to get to view function and pass it the page id
+    path('listing/<int:pk>/', ListingDetailView.as_view(), name='listing_detail'),
 ]

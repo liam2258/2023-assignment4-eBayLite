@@ -50,7 +50,7 @@
 <div>
     <h2>Comments</h2>
     {% if user.is_authenticated %}
-        <form action="{% url 'addComment' id=listing.id %}" method="POST">
+        <form id="commentForm" data-url="{% url 'addComment' id=listing.id %}" method="POST">
             {% csrf_token %}
             <input type="text" name="comment" placeholder="New Comment">
             <button type="submit">Submit</button>
@@ -60,7 +60,7 @@
 <ul>
 {% for comment in allComments %}
 
-<li>
+<li id="commentList">
     User {{comment.author}} says:
     <br/>
     {{comment.message}}

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.urls import reverse
 
 
 class User(AbstractUser):
@@ -15,6 +16,8 @@ class Bid(models.Model):
     bid = models.FloatField(default=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="userBid")
 
+# auctions/models.py
+
 class Listing(models.Model):
     title = models.CharField(max_length=35)
     description = models.CharField(max_length=400)
@@ -24,6 +27,11 @@ class Listing(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="user")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True, related_name="category")
     watchlist = models.ManyToManyField(User, blank=True, null=True, related_name="listingWatchList")
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # Get the url for each Listing page
+    def get_absolute_url(self):
+        return reverse('listing_detail', args=[str(self.id)])
 
     def __str__(self):
         return self.title
