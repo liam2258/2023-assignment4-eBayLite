@@ -13,6 +13,8 @@
     <button type="submit">Select</button>
 </form>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 <article style="display: grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); row-gap: 10px">
     {% for listing in listings %}
         <div>
@@ -23,7 +25,9 @@
             <a href="{% url 'listing' id=listing.id %}"><button>Info</button></a>
             <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
             {% if not isListingInWatchList %}
-                <button id="addToWatchlistBtn" data-listing-id="{{ listing.id }}" data-url="{% url 'addWatchList' listing.id %}">Watchlist</button>
+                <button id="addToWatchlistBtn" data-listing-id="{{ listing.id }}" data-url="{% url 'addWatchList' listing.id %}">
+                    <i class="fas fa-eye"></i>
+                </button>
                 <script>
                     var csrftoken = '{{ csrf_token }}';
                     $(document).ready(function () {
@@ -42,8 +46,8 @@
                                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
                                 },
                                 success: function (response) {
-                                    button.css({'background-color': 'white',
-                                               'border-color': 'white'});
+                                    button.css({'background-color': 'green',
+                                               'border-color': 'green'});
                                 },
                                 error: function (xhr, errmsg, err) {
                                     console.log(errmsg);
@@ -53,7 +57,9 @@
                     });
                 </script>
             {% else %}
-                <button id="removeFromWatchlistBtn" data-listing-id="{{ listing.id }}" data-url="{% url 'removeWatchList' listing.id %}">Watchlist</button>
+                <button id="removeFromWatchlistBtn" data-listing-id="{{ listing.id }}" data-url="{% url 'removeWatchList' listing.id %}">
+                    <i class="fas fa-eye-slash"></i>
+                </button>
                 <script>
                     var csrftoken = '{{ csrf_token }}';
                     $(document).ready(function () {
