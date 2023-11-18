@@ -126,7 +126,7 @@ def displayWatchList(request):
         "listings": listings
     })
 
-def removeWatchList(request, id):
+'''def removeWatchList(request, id):
     listingData = Listing.objects.get(pk=id)
     currentUser = request.user
     listingData.watchlist.remove(currentUser)
@@ -136,8 +136,25 @@ def addWatchList(request, id):
     listingData = Listing.objects.get(pk=id)
     currentUser = request.user
     listingData.watchlist.add(currentUser)
-    return HttpResponseRedirect(reverse("listing", args=(id, )))
+    return HttpResponseRedirect(reverse("listing", args=(id, )))'''
+def removeWatchList(request, id):
+    try:
+        listingData = Listing.objects.get(pk=id)
+        currentUser = request.user
+        listingData.watchlist.remove(currentUser)
+        return JsonResponse({'success': True})
+    except Listing.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Listing does not exist'}, status=404)
 
+def addWatchList(request, id):
+    try:
+        listingData = Listing.objects.get(pk=id)
+        currentUser = request.user
+        listingData.watchlist.add(currentUser)
+        return JsonResponse({'success': True})
+    except Listing.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Listing does not exist'}, status=404)
+    
 def index(request):
     activeListings = Listing.objects.filter(isActive=True)
     allCategories = Category.objects.all()

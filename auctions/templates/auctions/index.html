@@ -17,60 +17,72 @@
     {% for listing in listings %}
         <div>
             <h2>{{listing.title}}</h2>
-            <img style="min-width: 150px; min-height: 100px; max-height: 20vw; max-width: 15vw;"src="{{listing.imageUrl}}" alt="Product"">
+            <img style="min-width: 150px; min-height: 100px; max-height: 20vw; max-width: 15vw;"src="{{listing.imageUrl}}" alt="Product">
             <p>{{listing.description}}</p>
             <p>${{listing.price.bid}}</p>
             <a href="{% url 'listing' id=listing.id %}"><button>Info</button></a>
-            {% if isListingInWatchList %}
-                <button id="removeFromWatchlistBtn" data-listing-id="{{ listing.id }}">Remove from Watchlist</button>
-            {% else %}    
-                <button id="addToWatchlistBtn" data-listing-id="{{ listing.id }}">Add to Watchlist</button>
+            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+            {% if not isListingInWatchList %}
+                <button id="addToWatchlistBtn" data-listing-id="{{ listing.id }}" data-url="{% url 'addWatchList' listing.id %}">Watchlist</button>
+                <script>
+                    var csrftoken = '{{ csrf_token }}';
+                    $(document).ready(function () {
+                        $("#addToWatchlistBtn").click(function (event) {
+                            event.preventDefault();
+    
+                            var button = $(this);
+                            var url = button.data("url");
+                            var listingId = button.attr("data-listing-id");
+    
+                            $.ajax({
+                                type: "POST",
+                                url: url,
+                                data: { listing_id: listingId },
+                                beforeSend: function(xhr, settings) {
+                                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                                },
+                                success: function (response) {
+                                    button.css('background-color', 'green',
+                                               'border-color', 'green');
+                                },
+                                error: function (xhr, errmsg, err) {
+                                    console.log(errmsg);
+                                }
+                            });
+                        });
+                    });
+                </script>
+            {% else %}
+                <button id="removeFromWatchlistBtn" data-listing-id="{{ listing.id }}" data-url="{% url 'removeWatchList' listing.id %}">Watchlist</button>
+                <script>
+                    var csrftoken = '{{ csrf_token }}';
+                    $(document).ready(function () {
+                        $("#removeFromWatchlistBtn").click(function (event) {
+                            event.preventDefault();
+
+                            var button = $(this);
+                            var url = button.data("url");
+                            var listingId = button.attr("data-listing-id");
+
+                            $.ajax({
+                                type: "POST",
+                                url: url,
+                                data: { listing_id: listingId },
+                                beforeSend: function(xhr, settings) {
+                                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                                },
+                                success: function (response) {
+                                    button.css('background-color', 'red', 
+                                               'border-color', 'red');
+                                },
+                                error: function (xhr, errmsg, err) {
+                                    console.log(errmsg);
+                                }
+                            });
+                        });
+                    });
+                </script>
             {% endif %}
-            <script>
-                $(document).ready(function () {
-                    $(".addToWatchlistBtn").click(function (event) {
-                        event.preventDefault();
-
-                        var button = $(this);
-                        var url = "addWatchList"
-                        var listingId = button.attr("data-listing-id");
-
-                        $.ajax({
-                            type: "POST",
-                            url: url,
-                            data: { listing_id: listingId },
-                            success: function (response) {
-                                button.text('Added to Watchlist');
-                                button.css('background-color', 'green');
-                            },
-                            error: function (xhr, errmsg, err) {
-                                console.log(errmsg);
-                            }
-                        });
-                    });
-
-                    $(".removeFromWatchlistBtn").click(function (event) {
-                        event.preventDefault();
-
-                        var button = $(this);
-                        var url = "removeWatchList";
-                        var listingId = button.attr("data-listing-id");
-
-                        $.ajax({
-                            type: "POST",
-                            url: url,
-                            data: { listing_id: listingId },
-                            success: function (response) {
-                                button.text('Removed from Watchlist');
-                                button.css('background-color', 'red');
-                            },
-                            error: function (xhr, errmsg, err) {
-                                console.log(errmsg);
-                            }
-                        });
-                    });
-                });
-            </script>
         </div>
     {% endfor %}
 </article>
