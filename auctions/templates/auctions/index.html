@@ -42,8 +42,8 @@
                                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
                                 },
                                 success: function (response) {
-                                    button.css('background-color', 'green',
-                                               'border-color', 'green');
+                                    button.css({'background-color': 'white',
+                                               'border-color': 'white'});
                                 },
                                 error: function (xhr, errmsg, err) {
                                     console.log(errmsg);
@@ -72,8 +72,8 @@
                                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
                                 },
                                 success: function (response) {
-                                    button.css('background-color', 'red', 
-                                               'border-color', 'red');
+                                    button.css({'background-color': 'red', 
+                                               'border-color': 'red'});
                                 },
                                 error: function (xhr, errmsg, err) {
                                     console.log(errmsg);
