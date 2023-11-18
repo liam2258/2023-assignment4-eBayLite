@@ -22,9 +22,9 @@
             <p>${{listing.price.bid}}</p>
             <a href="{% url 'listing' id=listing.id %}"><button>Info</button></a>
             {% if isListingInWatchList %}
-                <button id="removeFromWatchlistBtn" data-listing-id="{{ listing_id }}">Remove from Watchlist</button>
+                <button id="removeFromWatchlistBtn" data-listing-id="{{ listing.id }}">Remove from Watchlist</button>
             {% else %}    
-                <button id="addToWatchlistBtn" data-listing-id="{{ listing_id }}">Add to Watchlist</button>
+                <button id="addToWatchlistBtn" data-listing-id="{{ listing.id }}">Add to Watchlist</button>
             {% endif %}
             <script>
                 $(document).ready(function () {
