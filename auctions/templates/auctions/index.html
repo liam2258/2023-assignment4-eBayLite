@@ -21,6 +21,56 @@
             <p>{{listing.description}}</p>
             <p>${{listing.price.bid}}</p>
             <a href="{% url 'listing' id=listing.id %}"><button>Info</button></a>
+            {% if isListingInWatchList %}
+                <button id="removeFromWatchlistBtn" data-listing-id="{{ listing_id }}">Remove from Watchlist</button>
+            {% else %}    
+                <button id="addToWatchlistBtn" data-listing-id="{{ listing_id }}">Add to Watchlist</button>
+            {% endif %}
+            <script>
+                $(document).ready(function () {
+                    $(".addToWatchlistBtn").click(function (event) {
+                        event.preventDefault();
+
+                        var button = $(this);
+                        var url = "addWatchList"
+                        var listingId = button.attr("data-listing-id");
+
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: { listing_id: listingId },
+                            success: function (response) {
+                                button.text('Added to Watchlist');
+                                button.css('background-color', 'green');
+                            },
+                            error: function (xhr, errmsg, err) {
+                                console.log(errmsg);
+                            }
+                        });
+                    });
+
+                    $(".removeFromWatchlistBtn").click(function (event) {
+                        event.preventDefault();
+
+                        var button = $(this);
+                        var url = "removeWatchList";
+                        var listingId = button.attr("data-listing-id");
+
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: { listing_id: listingId },
+                            success: function (response) {
+                                button.text('Removed from Watchlist');
+                                button.css('background-color', 'red');
+                            },
+                            error: function (xhr, errmsg, err) {
+                                console.log(errmsg);
+                            }
+                        });
+                    });
+                });
+            </script>
         </div>
     {% endfor %}
 </article>

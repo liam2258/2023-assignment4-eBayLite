@@ -1,4 +1,5 @@
 from django.urls import path
+from django.conf.urls import include
 
 from . import views
 from .views import ListingDetailView
@@ -21,6 +22,7 @@ urlpatterns = [
     path('closeAuction/<int:id>/', views.closeAuction, name='closeAuction'),
     path('categories', views.categories, name='categories'),
     path('categoryList/<str:category>/', views.categoryList, name='categoryList'),
+    path('oauth/', include('social_django.urls', namespace='social')), # here we add the URL
 
     # Use our path to get to view function and pass it the page id
     path('listing/<int:pk>/', ListingDetailView.as_view(), name='listing_detail'),
