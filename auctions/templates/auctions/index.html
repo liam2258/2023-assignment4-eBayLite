@@ -23,15 +23,16 @@
             <p>{{ listing.description }}</p>
             <p>${{ listing.price.bid }}</p>
             <a href="{% url 'listing' id=listing.id %}"><button>Info</button></a>
-
-            {% if listing in watchlist %}
-                <button class="removeFromWatchlistBtn" data-listing-id="{{ listing.id }}" data-url="{% url 'removeWatchList' listing.id %}">
-                    <i class="fas fa-eye-slash"></i> Remove from Watchlist
-                </button>
-            {% else %}
-                <button class="addToWatchlistBtn" data-listing-id="{{ listing.id }}" data-url="{% url 'addWatchList' listing.id %}" style="background-color: white; border-color: white;">
-                    <i class="fas fa-eye"></i> Add to Watchlist
-                </button>
+            {% if user.is_authenticated %}
+                {% if listing in watchlist %}
+                    <button class="removeFromWatchlistBtn" data-listing-id="{{ listing.id }}" data-url="{% url 'removeWatchList' listing.id %}">
+                        <i class="fas fa-eye-slash"></i> Remove from Watchlist
+                    </button>
+                {% else %}
+                    <button class="addToWatchlistBtn" data-listing-id="{{ listing.id }}" data-url="{% url 'addWatchList' listing.id %}" style="background-color: white; border-color: white;">
+                        <i class="fas fa-eye"></i> Add to Watchlist
+                    </button>
+                {% endif %}
             {% endif %}
         </div>
     {% endfor %}
