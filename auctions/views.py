@@ -19,6 +19,40 @@ class ListingDetailView(View):
     def get(self, request, pk):
         listing = get_object_or_404(Listing, pk=pk)
         return render(request, self.template_name, {'listing': listing})
+    
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from .models import Listing, Category
+
+def index(request):
+    # Get all active listings
+    activeListings = Listing.objects.filter(isActive=True)
+    allCategories = Category.objects.all()
+
+    currentUser = request.user
+
+    if currentUser.is_authenticated:
+        # Get active listings in the current user's watchlist
+        listings_in_watchlist = currentUser.listingWatchList.filter(isActive=True)
+        return render(request, "auctions/index.html", {
+            "listings": activeListings,
+            "watchlist": listings_in_watchlist,
+            "categories": allCategories
+        })
+    else:
+        return render(request, "auctions/index.html", {
+            "listings": activeListings,
+            "categories": allCategories
+        })
+
+    
+# def index(request):
+#     activeListings = Listing.objects.filter(isActive=True)
+#     allCategories = Category.objects.all()
+#     return render(request, "auctions/index.html", {
+#         "listings": activeListings,
+#         "categories": allCategories
+#     })
 
 def listing(request, id):
     listingData = Listing.objects.get(pk=id)
@@ -155,13 +189,6 @@ def addWatchList(request, id):
 #     except Listing.DoesNotExist:
 #         return JsonResponse({'success': False, 'error': 'Listing does not exist'}, status=404)
     
-def index(request):
-    activeListings = Listing.objects.filter(isActive=True)
-    allCategories = Category.objects.all()
-    return render(request, "auctions/index.html", {
-        "listings": activeListings,
-        "categories": allCategories
-    })
 
 def displayCategory(request):
     print(request.POST)

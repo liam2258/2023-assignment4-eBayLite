@@ -15,23 +15,25 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-<article style="display: grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); row-gap: 10px">
+<article style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); row-gap: 10px">
     {% for listing in listings %}
         <div>
-            <h2>{{listing.title}}</h2>
-            <img style="min-width: 150px; min-height: 100px; max-height: 20vw; max-width: 15vw;"src="{{listing.imageUrl}}" alt="Product">
-            <p>{{listing.description}}</p>
-            <p>${{listing.price.bid}}</p>
+            <h2>{{ listing.title }}</h2>
+            <img style="min-width: 150px; min-height: 100px; max-height: 20vw; max-width: 15vw;" src="{{ listing.imageUrl }}" alt="Product">
+            <p>{{ listing.description }}</p>
+            <p>${{ listing.price.bid }}</p>
             <a href="{% url 'listing' id=listing.id %}"><button>Info</button></a>
-            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+            {% if listing in watchlist %}
                 <button class="removeFromWatchlistBtn" data-listing-id="{{ listing.id }}" data-url="{% url 'removeWatchList' listing.id %}">
-                    <i class="fas fa-eye-slash"></i>
+                    <i class="fas fa-eye-slash"></i> Remove from Watchlist
                 </button>
-                <button class="addToWatchlistBtn" data-listing-id="{{ listing.id }}" data-url="{% url 'addWatchList' listing.id %}"
-                    style="background-color: white; border-color: white;">
-                    <i class="fas fa-eye"></i>
+            {% else %}
+                <button class="addToWatchlistBtn" data-listing-id="{{ listing.id }}" data-url="{% url 'addWatchList' listing.id %}" style="background-color: white; border-color: white;">
+                    <i class="fas fa-eye"></i> Add to Watchlist
                 </button>
+            {% endif %}
         </div>
     {% endfor %}
-</article
+</article>
 {% endblock %}
