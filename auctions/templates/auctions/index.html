@@ -25,16 +25,43 @@
             <a href="{% url 'listing' id=listing.id %}"><button>Info</button></a>
             {% if user.is_authenticated %}
                 {% if listing in watchlist %}
-                    <button class="removeFromWatchlistBtn" data-listing-id="{{ listing.id }}" data-url="{% url 'removeWatchList' listing.id %}">
+                    <button class="removeFromWatchlistBtn active" data-listing-id="{{ listing.id }}" data-url="{% url 'removeWatchList' listing.id %}">
                         <i class="fas fa-eye-slash"></i> Remove from Watchlist
                     </button>
+                    <button class="addToWatchlistBtn" data-listing-id="{{ listing.id }}" data-url="{% url 'addWatchList' listing.id %}" style="display: none;">
+                        <i class="fas fa-eye"></i> Add to Watchlist
+                    </button>
                 {% else %}
-                    <button class="addToWatchlistBtn" data-listing-id="{{ listing.id }}" data-url="{% url 'addWatchList' listing.id %}" style="background-color: white; border-color: white;">
+                    <button class="removeFromWatchlistBtn" data-listing-id="{{ listing.id }}" data-url="{% url 'removeWatchList' listing.id %}" style="display: none;">
+                        <i class="fas fa-eye-slash"></i> Remove from Watchlist
+                    </button>
+                    <button class="addToWatchlistBtn active" data-listing-id="{{ listing.id }}" data-url="{% url 'addWatchList' listing.id %}">
                         <i class="fas fa-eye"></i> Add to Watchlist
                     </button>
                 {% endif %}
             {% endif %}
         </div>
     {% endfor %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const addToWatchlistBtn = document.querySelector('.addToWatchlistBtn');
+            const removeFromWatchlistBtn = document.querySelector('.removeFromWatchlistBtn');
+    
+            addToWatchlistBtn.addEventListener('click', function() {
+                addToWatchlistBtn.style.display = 'none';
+                removeFromWatchlistBtn.style.display = 'block';
+                addToWatchlistBtn.classList.remove('active');
+                removeFromWatchlistBtn.classList.add('active');
+            });
+    
+            removeFromWatchlistBtn.addEventListener('click', function() {
+                removeFromWatchlistBtn.style.display = 'none';
+                addToWatchlistBtn.style.display = 'block';
+                removeFromWatchlistBtn.classList.remove('active');
+                addToWatchlistBtn.classList.add('active');
+            });
+        });
+    </script>
+    
 </article>
 {% endblock %}
