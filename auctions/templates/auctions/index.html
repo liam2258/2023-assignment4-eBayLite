@@ -34,24 +34,14 @@
                     <i class="fas fa-eye"></i>
                 </button>
             {% endif %}
-            
+        
             <script>
                 var csrftoken = '{{ csrf_token }}';
             
                 $(document).ready(function () {
-                    function setInitialState() {
-                        $('.addToWatchlistBtn, .removeFromWatchlistBtn').each(function () {
-                            var listingId = $(this).data('listing-id');
-                            if (localStorage.getItem('watchlist_item_' + listingId) === 'added') {
-                                $(this).find('i').removeClass('fa-eye-slash').addClass('fa-eye');
-                                $(this).css({'background-color': 'green', 'border-color': 'green'});
-                            }
-                        });
-                    }
-                    setInitialState();
-            
                     $(".addToWatchlistBtn").click(function (event) {
                         event.preventDefault();
+            
                         var button = $(this);
                         var url = button.data("url");
                         var listingId = button.attr("data-listing-id");
@@ -60,14 +50,13 @@
                             type: "POST",
                             url: url,
                             data: { listing_id: listingId },
-                            beforeSend: function (xhr, settings) {
+                            beforeSend: function(xhr, settings) {
                                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
                             },
                             success: function (response) {
                                 if (response.success) {
                                     button.find('i').removeClass('fa-eye-slash').addClass('fa-eye');
                                     button.css({'background-color': 'green', 'border-color': 'green'});
-                                    localStorage.setItem('watchlist_item_' + listingId, 'added');
                                 }
                             },
                             error: function (xhr, errmsg, err) {
@@ -75,9 +64,9 @@
                             }
                         });
                     });
-            
                     $(".removeFromWatchlistBtn").click(function (event) {
                         event.preventDefault();
+            
                         var button = $(this);
                         var url = button.data("url");
                         var listingId = button.attr("data-listing-id");
@@ -86,14 +75,13 @@
                             type: "POST",
                             url: url,
                             data: { listing_id: listingId },
-                            beforeSend: function (xhr, settings) {
+                            beforeSend: function(xhr, settings) {
                                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
                             },
                             success: function (response) {
                                 if (response.success) {
                                     button.find('i').addClass('fa-eye-slash').removeClass('fa-eye');
                                     button.css({'background-color': 'white', 'border-color': 'white'});
-                                    localStorage.removeItem('watchlist_item_' + listingId);
                                 }
                             },
                             error: function (xhr, errmsg, err) {
