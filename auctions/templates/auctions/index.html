@@ -42,18 +42,23 @@
             {% endif %}
         </div>
     {% endfor %}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const addToWatchlistBtn = document.querySelector('.addToWatchlistBtn');
-            const removeFromWatchlistBtn = document.querySelector('.removeFromWatchlistBtn');
-    
+</article>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const addToWatchlistBtns = document.querySelectorAll('.addToWatchlistBtn');
+        const removeFromWatchlistBtns = document.querySelectorAll('.removeFromWatchlistBtn');
+
+        addToWatchlistBtns.forEach((addToWatchlistBtn, index) => {
+            const removeFromWatchlistBtn = removeFromWatchlistBtns[index];
+
             addToWatchlistBtn.addEventListener('click', function() {
                 addToWatchlistBtn.style.display = 'none';
                 removeFromWatchlistBtn.style.display = 'block';
                 addToWatchlistBtn.classList.remove('active');
                 removeFromWatchlistBtn.classList.add('active');
             });
-    
+
             removeFromWatchlistBtn.addEventListener('click', function() {
                 removeFromWatchlistBtn.style.display = 'none';
                 addToWatchlistBtn.style.display = 'block';
@@ -61,7 +66,7 @@
                 addToWatchlistBtn.classList.add('active');
             });
         });
-    </script>
-    
-</article>
+    });
+</script>
+
 {% endblock %}
