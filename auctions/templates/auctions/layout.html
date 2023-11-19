@@ -43,6 +43,70 @@
                 });
             });
         </script>
+        <script>
+            var csrftoken = '{{ csrf_token }}';
+            
+            $(document).ready(function () {
+                $(".addToWatchlistBtn").click(function (event) {
+                    console.log("In add to watch list");
+                    event.preventDefault();
+                    var button = $(this);
+                    var url = button.data("url");
+                    var listingId = button.attr("data-listing-id");
+        
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: { listing_id: listingId },
+                        beforeSend: function (xhr, settings) {
+                            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                button.find('i').removeClass('fa-eye-slash').addClass('fa-eye');
+                                button.css({'background-color': 'green', 'border-color': 'green'});
+                                localStorage.setItem('watchlist_item_' + listingId, 'added');
+                            }
+                        },
+                        error: function (xhr, errmsg, err) {
+                            console.log(errmsg);
+                        }
+                    });
+                });
+            });
+        </script>
+        <script>
+            var csrftoken = '{{ csrf_token }}';
+            
+            $(document).ready(function () {
+                $(".removeFromWatchlistBtn").click(function (event) {
+                        console.log("In remove from watch list");
+                        event.preventDefault();
+                        var button = $(this);
+                        var url = button.data("url");
+                        var listingId = button.attr("data-listing-id");
+            
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: { listing_id: listingId },
+                            beforeSend: function (xhr, settings) {
+                                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                            },
+                            success: function (response) {
+                                if (response.success) {
+                                    button.find('i').addClass('fa-eye-slash').removeClass('fa-eye');
+                                    button.css({'background-color': 'white', 'border-color': 'white'});
+                                    localStorage.removeItem('watchlist_item_' + listingId);
+                                }
+                            },
+                            error: function (xhr, errmsg, err) {
+                                console.log(errmsg);
+                            }
+                        });
+                    });
+            });
+        </script>
     </head>
     <body>
         <header>
