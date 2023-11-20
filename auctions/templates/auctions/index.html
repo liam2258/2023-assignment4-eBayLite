@@ -25,21 +25,18 @@
             <a href="{% url 'listing' id=listing.id %}"><button>Info</button></a>
             {% if user.is_authenticated %}
                 {% if listing in watchlist %}
-                    <button class="removeFromWatchlistBtn active" data-listing-id="{{ listing.id }}" data-url="{% url 'removeWatchList' listing.id %}"
-                    style="background-color: white; border-color: white">
-                        <i class="fas fa-eye-slash" style="color: black"></i> Remove from Watchlist
+                    <button class="removeFromWatchlistBtn active" data-listing-id="{{ listing.id }}" data-url="{% url 'removeWatchList' listing.id %}">
+                        <i class="fas fa-eye-slash"></i>
                     </button>
                     <button class="addToWatchlistBtn" data-listing-id="{{ listing.id }}" data-url="{% url 'addWatchList' listing.id %}" style="display: none;">
-                        <i class="fas fa-eye"></i> Add to Watchlist
+                        <i class="fas fa-eye"></i>
                     </button>
                 {% else %}
                     <button class="removeFromWatchlistBtn" data-listing-id="{{ listing.id }}" data-url="{% url 'removeWatchList' listing.id %}" style="display: none;">
-                        <i class="fas fa-eye-slash"></i> Remove from Watchlist
+                        <i class="fas fa-eye-slash"></i>
                     </button>
-                    <button class="addToWatchlistBtn active" data-listing-id="{{ listing.id }}" data-url="{% url 'addWatchList' listing.id %}"
-                    style="background-color: black; border-color: black">
-                        <i class="fas fa-eye" style="color: white"></i> Add to Watchlist
-                    </button>
+                    <button class="addToWatchlistBtn active" data-listing-id="{{ listing.id }}" data-url="{% url 'addWatchList' listing.id %}"">
+                        <i class="fas fa-eye"></i>
                 {% endif %}
             {% endif %}
         </div>

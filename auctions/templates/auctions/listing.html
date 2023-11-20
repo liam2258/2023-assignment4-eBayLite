@@ -34,14 +34,14 @@
 </h1>
 
 <div class="row">
-  {% if user.is_authenticated %}
-    {% if isOwner %}
-      <form action="{% url 'closeAuction' id=listing.id %}" method="POST">
-        {% csrf_token %}
-        <button type="submit">Close Auction</button>
-      </form>
+    {% if user.is_authenticated %}
+        {% if isOwner %}
+            <form action="{% url 'closeAuction' id=listing.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit">Close Auction</button>
+            </form>
+        {% endif %}
     {% endif %}
-  {% endif %}
 </div>
 
 <h2>{{ listing.title }}</h2>
