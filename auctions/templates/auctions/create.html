@@ -3,6 +3,26 @@
 {% block main %}
 <h2>Create New Listing</h2>
 
+<script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.1.1/dist/basicLightbox.min.js"></script>
+
+<div>
+    <div id="image" hidden>
+        <img width="1400" height="900" src="auctions\templates\auctions\example.jpg">
+    </div>
+    <button class="html">Example</button>
+    <br>
+</div>
+
+<script>
+    const imageSource = document.querySelector('#image img').src;
+    const imageInstance = basicLightbox.create(`<img src="${imageSource}" width="800" height="500">`);
+
+    document.querySelector('button.html').addEventListener('click', function () {
+        imageInstance.show();
+    });
+</script>
+
+
 <form action="{% url 'create' %}" method="POST">
     {% csrf_token %}
     <div>
