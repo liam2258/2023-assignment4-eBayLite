@@ -15,17 +15,6 @@
                 <button type="submit">Close Auction</button>
             </form>
         {% endif %}
-       <!-- {% if isListingInWatchList %}
-            <form action="{% url 'removeWatchList' id=listing.id %}" method="POST">
-                {% csrf_token %}
-                <button type="submit">Remove from Watchlist</button>
-            </form>
-        {% else %}
-        <form action="{% url 'addWatchList' id=listing.id %}" method="POST">
-            {% csrf_token %}
-            <button type="submit">Add to Watchlist</button>
-        </form>
-        {% endif %} -->
     {% endif %}
 </div>
 
