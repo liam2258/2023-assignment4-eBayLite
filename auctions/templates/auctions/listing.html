@@ -64,10 +64,8 @@
 
 <p>{{ message }}</p>
 
-<button class="accordion-button" onclick="toggleComments()">Hide Comments</button>
-
 <div>
-  <h2>Comments</h2>
+    <button class="accordion-button" onclick="toggleComments()">Hide Comments</button>
   {% if user.is_authenticated %}
     <form id="commentForm" data-url="{% url 'addComment' id=listing.id %}" method="POST">
       {% csrf_token %}
