@@ -3,22 +3,31 @@
 {% block main %}
 <h2>Create New Listing</h2>
 
-<script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.1.1/dist/basicLightbox.min.js"></script>
+<script src="https://s.electerious.com/basicLightbox/dist/basicLightbox.min.js"></script>
 
 <div>
     <div id="image" hidden>
-        <img width="1400" height="900" src="auctions/templates/auctions/example.jpg">
+        <img id="exampleImage" width="1400" height="900" src="auctions/templates/auctions/example.jpg">
     </div>
     <button class="html">Example</button>
     <br>
 </div>
 
 <script>
-    const imageSource = document.querySelector('#image img').src;
-    const imageInstance = basicLightbox.create(`<img src="${imageSource}" width="800" height="500">`);
-
     document.querySelector('button.html').addEventListener('click', function () {
+        const imageSource = document.getElementById('exampleImage').src;
+        const imageInstance = basicLightbox.create(`
+            <div>
+                <img src="${imageSource}" width="800" height="500">
+                <button id="closeButton">Close</button>
+            </div>
+        `);
+
         imageInstance.show();
+
+        document.getElementById('closeButton').addEventListener('click', function () {
+            imageInstance.close();
+        });
     });
 </script>
 
